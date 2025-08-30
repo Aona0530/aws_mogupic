@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="あなたの好みにピッタリのレストランを見つけるアプリ">
+    <meta name="keywords" content="レストラン,グルメ,検索,映え,おいしい">
+    <title>RestaurantFinder - レストラン検索アプリ</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#efc1b4">
+    
+    <meta property="og:title" content="RestaurantFinder">
+    <meta property="og:description" content="あなたの好みにピッタリのレストランを見つけよう">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/efc1b4/ffffff?text=RestaurantFinder">
+    
+    <script>
+        // Google Analytics or Amplify Analytics設定用
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        // 実際のGA_TRACKING_IDは環境変数で設定
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: linear-gradient(135deg, #fdfcfb 0%, #f9f7f6 100%);
+            min-height: 100vh;
+            color: #4a4a4a;
+        }
+
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #efc1b4;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: #6b6b6b;
+            font-size: 1rem;
+        }
+
+        .main-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .priority-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .priority-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #4a4a4a;
+        }
+
+        .priority-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .priority-btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            position: relative;
+        }
+
+        .priority-btn.looks {
+            background: #ac91bd;
+        }
+
+        .priority-btn.price {
+            background: #7fcba4;
+        }
+
+        .priority-btn.taste {
+            background: #efc1b4;
+        }
+
+
+
+        .priority-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .priority-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .search-form {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .station-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .station-btn {
+            padding: 0.8rem;
+            background: #e5e5e5;
+            color: #4a4a4a;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .station-btn:hover {
+            background: #dcdcdc;
+            transform: translateY(-1px);
+        }
+
+        .station-btn.active {
+            background: #efc1b4;
+            color: white;
+            border-color: #e8b3a4;
+            transform: translateY(-1px);
+        }
+
+        .search-button {
+            width: 100%;
+            padding: 1rem;
+            background: #efc1b4;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: #e8b3a4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #6b6b6b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .priority-buttons {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🍽️ RestaurantFinder</div>
+            <div class="tagline">あなたの好みにピッタリのお店を見つけよう</div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="priority-section">
+            <h2 class="priority-title">何を重視しますか？</h2>
+            <div class="priority-buttons">
+                <button class="priority-btn looks" data-priority="looks">
+                    📷 映え度優先！
+                </button>
+                <button class="priority-btn price" data-priority="price">
+                    💰 金額優先！
+                </button>
+                <button class="priority-btn taste" data-priority="taste">
+                    ⭐ 美味しさ優先！
+               
+            </div>
+        </section>
+
+        <form class="search-form" id="searchForm">
+            <div class="form-group">
+                <label class="form-label">📍 場所</label>
+                <div class="station-buttons">
+                    <button type="button" class="station-btn" data-location="渋谷">渋谷</button>
+                    <button type="button" class="station-btn" data-location="新宿">新宿</button>
+                    <button type="button" class="station-btn" data-location="池袋">池袋</button>
+                </div>
+                <input type="hidden" id="location" name="location">
+                <input type="hidden" id="priority" name="priority">
+            </div>
+
+            <button type="submit" class="search-button" id="searchBtn">
+                🔍 レストランを探す
+            </button>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 RestaurantFinder. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selectedPriority = null;
+        let selectedLocation = null;
+
+        // 優先度ボタンの処理
+        document.querySelectorAll('.priority-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                selectedPriority = this.dataset.priority;
+                
+                // ボタンの状態を更新
+                document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // hidden inputに値を設定
+                document.getElementById('priority').value = selectedPriority;
+            });
+        });
+        
+        // 駅名ボタンの処理
+        document.querySelectorAll('.station-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                selectedLocation = this.dataset.location;
+                
+                // ボタンの状態を更新
+                document.querySelectorAll('.station-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // hidden inputに値を設定
+                document.getElementById('location').value = selectedLocation;
+            });
+        });
+
+        // フォーム送信処理
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 選択されていない場合はアラートを出す
+            if (!selectedPriority || !selectedLocation) {
+                alert('優先する項目と場所を両方選択してください。');
+                return;
+            }
+            
+            const searchParams = {
+                priority: selectedPriority,
+                location: selectedLocation
+            };
+            
+            console.log('検索パラメータ:', searchParams);
+            
+            // 検索ボタンのローディング状態
+            const btn = document.getElementById('searchBtn');
+            btn.textContent = '🔍 検索中...';
+            btn.disabled = true;
+            
+            // 実際のアプリでは検索結果ページに遷移
+            setTimeout(() => {
+                alert(`検索完了！\n場所：${selectedLocation}\n重視項目：${selectedPriority}\nでレストランを探します。`);
+                btn.textContent = '🔍 レストランを探す';
+                btn.disabled = false;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
