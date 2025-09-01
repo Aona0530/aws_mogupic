@@ -5,47 +5,46 @@ export const searchRestaurants = (filters: SearchFilters): Restaurant[] => {
   let results = mockRestaurants.filter(restaurant => {
     // Filter by station
     if (restaurant.station !== filters.station) return false;
-    
-    // Filter by price range if specified
-    if (filters.priceRange) {
-      const [minPrice, maxPrice] = filters.priceRange;
-      if (restaurant.priceRange.max < minPrice || restaurant.priceRange.min > maxPrice) {
-        return false;
-      }
-    }
-    
-    // Filter by walking time if specified
-    if (filters.maxWalkingTime && restaurant.walkingTime > filters.maxWalkingTime) {
-      return false;
-    }
-    
-    // Filter by cuisine if specified
-    if (filters.cuisine && filters.cuisine !== '' && restaurant.cuisine !== filters.cuisine) {
-      return false;
-    }
-    
-    // Filter by minimum rating if specified
-    if (filters.minRating && restaurant.tasteRating < filters.minRating) {
-      return false;
-    }
-    
     return true;
   });
 
-  // Sort by priority
+  // Sort by priorities (first priority is main, second is tiebreaker)
   results = results.sort((a, b) => {
-    switch (filters.priority) {
+    const mainPriority = filters.priorities[0];
+    const secondaryPriority = filters.priorities[1];
+    
+    // Sort by main priority
+    let mainComparison = 0;
+    switch (mainPriority) {
       case 'instagrammability':
-        return b.instagrammability - a.instagrammability;
+        mainComparison = b.instagrammability - a.instagrammability;
+        break;
       case 'price':
-        return a.priceRange.min - b.priceRange.min;
+        mainComparison = a.priceRange.min - b.priceRange.min;
+        break;
       case 'taste':
-        return b.tasteRating - a.tasteRating;
+        mainComparison = b.tasteRating - a.tasteRating;
+        break;
       case 'distance':
-        return a.walkingTime - b.walkingTime;
-      default:
-        return 0;
+        mainComparison = a.walkingTime - b.walkingTime;
+        break;
     }
+    
+    // If main comparison is tied and there's a secondary priority, use it as tiebreaker
+    if (mainComparison === 0 && secondaryPriority) {
+      switch (secondaryPriority) {
+        case 'instagrammability':
+          return b.instagrammability - a.instagrammability;
+        case 'price':
+          return a.priceRange.min - b.priceRange.min;
+        case 'taste':
+          return b.tasteRating - a.tasteRating;
+        case 'distance':
+          return a.walkingTime - b.walkingTime;
+      }
+    }
+    
+    return mainComparison;
   });
 
   return results;

@@ -40,6 +40,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     ikebukuro: '池袋'
   };
 
+  const getPriorityDisplayText = () => {
+    const labels = filters.priorities.map(p => priorityLabels[p]);
+    return labels.join('・');
+  };
+
   const sortedResults = [...results].sort((a, b) => {
     switch (sortBy) {
       case 'distance':
@@ -49,10 +54,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       case 'price':
         return a.priceRange.min - b.priceRange.min;
       default:
-        // Priority-based sorting
-        if (filters.priority === 'instagrammability') return b.instagrammability - a.instagrammability;
-        if (filters.priority === 'taste') return b.tasteRating - a.tasteRating;
-        if (filters.priority === 'distance') return a.walkingTime - b.walkingTime;
+        // Priority-based sorting - use first priority as main sort
+        const mainPriority = filters.priorities[0];
+        if (mainPriority === 'instagrammability') return b.instagrammability - a.instagrammability;
+        if (mainPriority === 'taste') return b.tasteRating - a.tasteRating;
+        if (mainPriority === 'distance') return a.walkingTime - b.walkingTime;
         return a.priceRange.min - b.priceRange.min;
     }
   });
@@ -63,7 +69,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
         onBackToSearch={onBackToSearch}
         filters={filters}
         onNewSearch={onNewSearch}
-        priorityLabel={priorityLabels[filters.priority]}
+        priorityLabel={getPriorityDisplayText()}
         stationLabel={stationLabels[filters.station]}
       />
 
@@ -74,7 +80,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
           </p>
           <div className="hidden sm:block w-1 h-1 bg-[#6b6b6b] rounded-full"></div>
           <p className="text-[#6b6b6b] hidden sm:block">
-            {priorityLabels[filters.priority]}で{stationLabels[filters.station]}駅周辺を検索
+            {getPriorityDisplayText()}で{stationLabels[filters.station]}駅周辺を検索
           </p>
         </div>
 
@@ -126,7 +132,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             key={restaurant.id} 
             restaurant={restaurant}
             viewMode={viewMode}
-            priorityType={filters.priority}
+            priorityType={filters.priorities[0]}
           />
         ))}
       </div>

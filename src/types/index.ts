@@ -1,10 +1,6 @@
 export interface SearchFilters {
   station: 'shibuya' | 'shinjuku' | 'ikebukuro';
-  priority: 'instagrammability' | 'price' | 'taste' | 'distance';
-  priceRange?: [number, number];
-  maxWalkingTime?: number;
-  cuisine?: string;
-  minRating?: number;
+  priorities: ('instagrammability' | 'price' | 'taste' | 'distance')[];
 }
 
 export interface Restaurant {

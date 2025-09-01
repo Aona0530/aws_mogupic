@@ -2,8 +2,8 @@ import React from 'react';
 import { Camera, DollarSign, Heart, MapPin } from 'lucide-react';
 
 interface PriorityButtonsProps {
-  selectedPriority: 'instagrammability' | 'price' | 'taste' | 'distance' | null;
-  onPriorityChange: (priority: 'instagrammability' | 'price' | 'taste' | 'distance') => void;
+  selectedPriorities: ('instagrammability' | 'price' | 'taste' | 'distance')[];
+  onPriorityChange: (priorities: ('instagrammability' | 'price' | 'taste' | 'distance')[]) => void;
 }
 
 const priorities = [
@@ -41,33 +41,47 @@ const priorities = [
   }
 ];
 
-const PriorityButtons: React.FC<PriorityButtonsProps> = ({ selectedPriority, onPriorityChange }) => {
+const PriorityButtons: React.FC<PriorityButtonsProps> = ({ selectedPriorities, onPriorityChange }) => {
+  const handlePriorityClick = (priorityId: 'instagrammability' | 'price' | 'taste' | 'distance') => {
+    if (selectedPriorities.includes(priorityId)) {
+      // Remove if already selected
+      onPriorityChange(selectedPriorities.filter(p => p !== priorityId));
+    } else if (selectedPriorities.length < 2) {
+      // Add if less than 2 selected
+      onPriorityChange([...selectedPriorities, priorityId]);
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {priorities.map((priority) => {
         const Icon = priority.icon;
-        const isSelected = selectedPriority === priority.id;
+        const isSelected = selectedPriorities.includes(priority.id);
+        const isDisabled = !isSelected && selectedPriorities.length >= 2;
         
         return (
           <button
             key={priority.id}
-            onClick={() => onPriorityChange(priority.id)}
+            onClick={() => handlePriorityClick(priority.id)}
+            disabled={isDisabled}
             className={`p-6 rounded-xl border-2 transition-all duration-200 transform hover:scale-105 hover:shadow-lg ${
               isSelected 
                 ? 'border-transparent shadow-lg' 
+                : isDisabled
+                ? 'border-gray-200 opacity-50 cursor-not-allowed'
                 : 'border-gray-200 hover:border-gray-300'
-            }`}
+            } ${isDisabled ? 'hover:scale-100 hover:shadow-sm' : ''}`}
             style={{
               backgroundColor: isSelected ? priority.color : 'white',
               color: isSelected ? 'white' : '#4a4a4a'
             }}
             onMouseEnter={(e) => {
-              if (!isSelected) {
+              if (!isSelected && !isDisabled) {
                 e.currentTarget.style.backgroundColor = `${priority.color}15`;
               }
             }}
             onMouseLeave={(e) => {
-              if (!isSelected) {
+              if (!isSelected && !isDisabled) {
                 e.currentTarget.style.backgroundColor = 'white';
               }
             }}
@@ -83,6 +97,13 @@ const PriorityButtons: React.FC<PriorityButtonsProps> = ({ selectedPriority, onP
                 </div>
               </div>
             </div>
+            {isSelected && (
+              <div className="absolute top-2 right-2 w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">
+                  {selectedPriorities.indexOf(priority.id) + 1}
+                </span>
+              </div>
+            )}
           </button>
         );
       })}

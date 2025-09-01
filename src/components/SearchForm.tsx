@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { SearchFilters } from '../types';
 import PriorityButtons from './PriorityButtons';
 import StationSelector from './StationSelector';
-import DetailedFilters from './DetailedFilters';
 
 interface SearchFormProps {
   onSearch: (filters: SearchFilters) => void;
@@ -12,22 +11,14 @@ interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   const [selectedStation, setSelectedStation] = useState<'shibuya' | 'shinjuku' | 'ikebukuro'>('shibuya');
-  const [selectedPriority, setSelectedPriority] = useState<'instagrammability' | 'price' | 'taste' | 'distance' | null>(null);
-  const [showDetailedFilters, setShowDetailedFilters] = useState(false);
-  const [detailedFilters, setDetailedFilters] = useState({
-    priceRange: [1000, 5000] as [number, number],
-    maxWalkingTime: 10,
-    cuisine: '',
-    minRating: 3
-  });
+  const [selectedPriorities, setSelectedPriorities] = useState<('instagrammability' | 'price' | 'taste' | 'distance')[]>([]);
 
   const handleSearch = () => {
-    if (!selectedPriority) return;
+    if (selectedPriorities.length === 0) return;
 
     const filters: SearchFilters = {
       station: selectedStation,
-      priority: selectedPriority,
-      ...detailedFilters
+      priorities: selectedPriorities
     };
 
     onSearch(filters);
@@ -52,35 +43,17 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
 
         <div className="border-t border-gray-100 pt-8">
           <h3 className="text-xl font-semibold text-[#4a4a4a] mb-6">何を重視しますか？</h3>
+          <p className="text-sm text-[#6b6b6b] mb-6">1つまたは2つまで選択してください</p>
           <PriorityButtons 
-            selectedPriority={selectedPriority}
-            onPriorityChange={setSelectedPriority}
+            selectedPriorities={selectedPriorities}
+            onPriorityChange={setSelectedPriorities}
           />
         </div>
 
         <div className="border-t border-gray-100 pt-8">
           <button
-            onClick={() => setShowDetailedFilters(!showDetailedFilters)}
-            className="flex items-center space-x-2 text-[#ac91bd] font-medium hover:text-[#9a7ba8] transition-colors duration-200"
-          >
-            <span>詳細条件で検索</span>
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showDetailedFilters ? 'rotate-180' : ''}`} />
-          </button>
-          
-          {showDetailedFilters && (
-            <div className="mt-6">
-              <DetailedFilters 
-                filters={detailedFilters}
-                onFiltersChange={setDetailedFilters}
-              />
-            </div>
-          )}
-        </div>
-
-        <div className="border-t border-gray-100 pt-8">
-          <button
             onClick={handleSearch}
-            disabled={!selectedPriority || isLoading}
+            disabled={selectedPriorities.length === 0 || isLoading}
             className="w-full bg-[#efc1b4] hover:bg-[#e8b4a3] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 px-8 rounded-xl text-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100 shadow-lg hover:shadow-xl"
           >
             {isLoading ? (
