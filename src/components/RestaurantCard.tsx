@@ -25,9 +25,9 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
   const getPriorityValue = () => {
     switch (priorityType) {
       case 'instagrammability': return restaurant.instagrammability;
-      case 'taste': return restaurant.tasteRating;
-      case 'distance': return `${restaurant.walkingTime}分`;
-      case 'price': return `¥${restaurant.priceRange.min.toLocaleString()}~`;
+      case 'taste': return restaurant.taberogu_score;
+      case 'distance': return `${restaurant.walk}分`;
+      case 'price': return `¥${restaurant.price.toLocaleString()}`;
       default: return '';
     }
   };
@@ -43,7 +43,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
   return (
     <div className={cardClass}>
       <img
-        src={restaurant.imageUrl}
+        src={`https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=400`}
         alt={restaurant.name}
         className={imageClass}
       />
@@ -62,11 +62,8 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
         </div>
 
         <div className="flex items-center space-x-2 mb-3">
-          <div className="flex items-center text-[#4a4a4a]">
-            {getPriceSymbols(restaurant.priceRange.level)}
-          </div>
           <span className="text-sm text-[#6b6b6b]">
-            (¥{restaurant.priceRange.min.toLocaleString()}〜¥{restaurant.priceRange.max.toLocaleString()})
+            ¥{restaurant.price.toLocaleString()}
           </span>
         </div>
 
@@ -74,12 +71,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1 text-[#6b6b6b]">
               <Clock className="w-4 h-4" />
-              <span>徒歩{restaurant.walkingTime}分</span>
+              <span>徒歩{restaurant.walk}分</span>
             </div>
             
             <div className="flex items-center space-x-1">
               <Star className="w-4 h-4 fill-[#efc1b4] text-[#efc1b4]" />
-              <span className="text-[#4a4a4a] font-medium">{restaurant.tasteRating.toFixed(1)}</span>
+              <span className="text-[#4a4a4a] font-medium">{restaurant.taberogu_score.toFixed(1)}</span>
             </div>
             
             <div className="flex items-center space-x-1">
@@ -92,7 +89,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
         <div className="mt-3 text-sm text-[#6b6b6b]">
           <div className="flex items-center space-x-1">
             <MapPin className="w-3 h-3" />
-            <span>{restaurant.address}</span>
+            <span>{restaurant.location}</span>
           </div>
         </div>
 

@@ -6,14 +6,12 @@ export interface SearchFilters {
 export interface Restaurant {
   id: string;
   name: string;
-  imageUrl: string;
-  priceRange: {
-    min: number;
-    max: number;
-    level: 1 | 2 | 3 | 4; // ¥ symbols count
-  };
-  walkingTime: number; // minutes
-  tasteRating: number; // 1-5
+  pics: string;
+  price: number;
+  location: string;
+  walk: number; // minutes
+  taberogu_score: number;
+  google_score: number;
   instagrammability: number; // 1-5
   station: 'shibuya' | 'shinjuku' | 'ikebukuro';
   cuisine: string;

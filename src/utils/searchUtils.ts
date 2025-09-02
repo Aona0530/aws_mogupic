@@ -20,13 +20,13 @@ export const searchRestaurants = (filters: SearchFilters): Restaurant[] => {
         mainComparison = b.instagrammability - a.instagrammability;
         break;
       case 'price':
-        mainComparison = a.priceRange.min - b.priceRange.min;
+        mainComparison = a.price - b.price;
         break;
       case 'taste':
-        mainComparison = b.tasteRating - a.tasteRating;
+        mainComparison = b.taberogu_score - a.taberogu_score;
         break;
       case 'distance':
-        mainComparison = a.walkingTime - b.walkingTime;
+        mainComparison = a.walk - b.walk;
         break;
     }
     
@@ -36,11 +36,11 @@ export const searchRestaurants = (filters: SearchFilters): Restaurant[] => {
         case 'instagrammability':
           return b.instagrammability - a.instagrammability;
         case 'price':
-          return a.priceRange.min - b.priceRange.min;
+          return a.price - b.price;
         case 'taste':
-          return b.tasteRating - a.tasteRating;
+          return b.taberogu_score - a.taberogu_score;
         case 'distance':
-          return a.walkingTime - b.walkingTime;
+          return a.walk - b.walk;
       }
     }
     

@@ -48,18 +48,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   const sortedResults = [...results].sort((a, b) => {
     switch (sortBy) {
       case 'distance':
-        return a.walkingTime - b.walkingTime;
+        return a.walk - b.walk;
       case 'rating':
-        return b.tasteRating - a.tasteRating;
+        return b.taberogu_score - a.taberogu_score;
       case 'price':
-        return a.priceRange.min - b.priceRange.min;
+        return a.price - b.price;
       default:
         // Priority-based sorting - use first priority as main sort
         const mainPriority = filters.priorities[0];
         if (mainPriority === 'instagrammability') return b.instagrammability - a.instagrammability;
-        if (mainPriority === 'taste') return b.tasteRating - a.tasteRating;
-        if (mainPriority === 'distance') return a.walkingTime - b.walkingTime;
-        return a.priceRange.min - b.priceRange.min;
+        if (mainPriority === 'taste') return b.taberogu_score - a.taberogu_score;
+        if (mainPriority === 'distance') return a.walk - b.walk;
+        return a.price - b.price;
     }
   });
 
