@@ -18,8 +18,3 @@ export interface Restaurant {
   address: string;
   description?: string;
 }
-
-export interface SortOption {
-  value: string;
-  label: string;
-}

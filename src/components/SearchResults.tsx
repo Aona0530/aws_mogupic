@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Grid, List, Filter } from 'lucide-react';
-import { Restaurant, SearchFilters, SortOption } from '../types';
+import { Restaurant, SearchFilters } from '../types';
 import RestaurantCard from './RestaurantCard';
 import ResultsHeader from './ResultsHeader';
 
@@ -11,13 +11,6 @@ interface SearchResultsProps {
   onNewSearch: (filters: SearchFilters) => void;
 }
 
-const sortOptions: SortOption[] = [
-  { value: 'priority', label: '優先度順' },
-  { value: 'distance', label: '距離順' },
-  { value: 'rating', label: '評価順' },
-  { value: 'price', label: '価格順' }
-];
-
 const SearchResults: React.FC<SearchResultsProps> = ({ 
   results, 
   filters, 
@@ -25,7 +18,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   onNewSearch 
 }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [sortBy, setSortBy] = useState('priority');
 
   const priorityLabels = {
     instagrammability: '映え度優先',
@@ -44,24 +36,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     const labels = filters.priorities.map(p => priorityLabels[p]);
     return labels.join('・');
   };
-
-  const sortedResults = [...results].sort((a, b) => {
-    switch (sortBy) {
-      case 'distance':
-        return a.walk - b.walk;
-      case 'rating':
-        return b.taberogu_score - a.taberogu_score;
-      case 'price':
-        return a.price - b.price;
-      default:
-        // Priority-based sorting - use first priority as main sort
-        const mainPriority = filters.priorities[0];
-        if (mainPriority === 'instagrammability') return b.instagrammability - a.instagrammability;
-        if (mainPriority === 'taste') return b.taberogu_score - a.taberogu_score;
-        if (mainPriority === 'distance') return a.walk - b.walk;
-        return a.price - b.price;
-    }
-  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -85,18 +59,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
         </div>
 
         <div className="flex items-center space-x-4">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#efc1b4] focus:border-transparent text-sm"
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-
           <div className="flex bg-gray-100 rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
@@ -127,7 +89,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
           ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
           : 'grid-cols-1'
       }`}>
-        {sortedResults.map((restaurant) => (
+        {results.map((restaurant) => (
           <RestaurantCard 
             key={restaurant.id} 
             restaurant={restaurant}

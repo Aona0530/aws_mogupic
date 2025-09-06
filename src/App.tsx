@@ -15,13 +15,18 @@ function App() {
     setIsLoading(true);
     setSearchFilters(filters);
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    const results = searchRestaurants(filters);
-    setSearchResults(results);
-    setCurrentView('results');
-    setIsLoading(false);
+    try {
+      const results = await searchRestaurants(filters);
+      setSearchResults(results);
+      setCurrentView('results');
+    } catch (error) {
+      console.error('Search failed:', error);
+      // Handle error - could show error message to user
+      setSearchResults([]);
+      setCurrentView('results');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBackToSearch = () => {
