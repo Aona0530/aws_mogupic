@@ -57,7 +57,7 @@ const convertApiResponseToRestaurant = (apiData: any, index: number): Restaurant
 export const searchRestaurants = async (filters: SearchFilters): Promise<Restaurant[]> => {
   const apiUrl = import.meta.env.VITE_API_GATEWAY_URL;
   
-  if (!apiUrl || apiUrl === 'https://your-api-gateway-url.amazonaws.com/prod') {
+  if (!apiUrl || apiUrl === 'https://zo1rbziz9c.execute-api.us-east-1.amazonaws.com/mogupic') {
     throw new Error('API Gateway URL is not configured. Please set VITE_API_GATEWAY_URL environment variable.');
   }
 
