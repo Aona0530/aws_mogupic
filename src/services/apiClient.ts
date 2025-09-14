@@ -1,5 +1,5 @@
 // API Gateway client for restaurant search
-const API_BASE_URL = import.meta.env.VITE_API_GATEWAY_URL || 'https://your-api-gateway-url.amazonaws.com/prod';
+const API_BASE_URL = import.meta.env.VITE_API_GATEWAY_URL || 'https://zo1rbziz9c.execute-api.us-east-1.amazonaws.com/mogupic';
 
 export interface SearchRequest {
   location: string;

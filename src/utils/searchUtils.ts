@@ -60,7 +60,7 @@ export const searchRestaurants = async (filters: SearchFilters): Promise<Restaur
     // Check if API Gateway URL is configured
     const apiUrl = import.meta.env.VITE_API_GATEWAY_URL;
     
-    if (apiUrl && apiUrl !== 'https://your-api-gateway-url.amazonaws.com/prod') {
+    if (apiUrl && apiUrl !== 'https://zo1rbziz9c.execute-api.us-east-1.amazonaws.com/mogupic') {
       // Use real API
       const apiRequest = convertFiltersToApiRequest(filters);
       const apiResponse = await ApiClient.searchRestaurants(apiRequest);
