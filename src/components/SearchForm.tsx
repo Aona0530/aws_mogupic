@@ -28,11 +28,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-[#4a4a4a] mb-4">
-          あなたにぴったりの<br />レストランを見つけよう
+          mogupic
         </h2>
-        <p className="text-xl text-[#6b6b6b] leading-relaxed">
-          優先したいポイントを選んで、理想のお店を探しましょう
-        </p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-lg p-8 space-y-8">
