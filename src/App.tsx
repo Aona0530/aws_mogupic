@@ -21,8 +21,9 @@ function App() {
       setCurrentView('results');
     } catch (error) {
       console.error('Search failed:', error);
-      // Show error message to user
-      alert('検索に失敗しました。API Gateway URLが正しく設定されているか確認してください。');
+      // Handle error - could show error message to user
+      setSearchResults([]);
+      setCurrentView('results');
     } finally {
       setIsLoading(false);
     }
