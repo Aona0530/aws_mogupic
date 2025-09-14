@@ -5,7 +5,6 @@ import { SearchFilters } from '../types';
 interface ResultsHeaderProps {
   onBackToSearch: () => void;
   filters: SearchFilters;
-  onNewSearch: (filters: SearchFilters) => void;
   priorityLabel: string;
   stationLabel: string;
 }
@@ -13,7 +12,6 @@ interface ResultsHeaderProps {
 const ResultsHeader: React.FC<ResultsHeaderProps> = ({ 
   onBackToSearch, 
   filters, 
-  onNewSearch, 
   priorityLabel, 
   stationLabel 
 }) => {
@@ -37,7 +35,7 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({
           </div>
           
           <button
-            onClick={() => onNewSearch(filters)}
+            onClick={onBackToSearch}
             className="flex items-center space-x-2 bg-[#7fcba4] hover:bg-[#6fb892] text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105"
           >
             <RotateCcw className="w-4 h-4" />
