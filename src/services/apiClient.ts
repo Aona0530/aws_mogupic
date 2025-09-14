@@ -1,7 +1,6 @@
-// apiClient.ts
-import { API } from 'aws-amplify';
-
 // API Gateway client for restaurant search
+const API_BASE_URL = import.meta.env.VITE_API_GATEWAY_URL || 'https://zo1rbziz9c.execute-api.us-east-1.amazonaws.com/mogupic';
+
 export interface SearchRequest {
   location: string;
   looks: number;
@@ -22,38 +21,18 @@ export interface RestaurantResponse {
 }
 
 export class ApiClient {
-  private static apiName = 'MySearchAPI'; // AWS Amplify設定のAPI名と合わせる
-
-  static async searchRestaurants(searchParams: SearchRequest): Promise<RestaurantResponse[]> {
-    try {
-      // AmplifyのAPIを使用（推奨）
-      const response = await API.post(this.apiName, '/search', {
-        body: searchParams
-      });
-      
-      return response;
-    } catch (error) {
-      console.error('API request failed:', error);
-      throw new Error(`検索リクエストに失敗しました: ${error}`);
-    }
-  }
-
-  // フォールバック用：直接fetchを使う場合
-  static async searchRestaurantsWithFetch(searchParams: SearchRequest): Promise<RestaurantResponse[]> {
-    const API_BASE_URL = import.meta.env.VITE_API_GATEWAY_URL;
+  private static async makeRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
+    const url = `${API_BASE_URL}${endpoint}`;
     
-    if (!API_BASE_URL || API_BASE_URL === 'https://zo1rbziz9c.execute-api.us-east-1.amazonaws.com/mogupic') {
-      throw new Error('API Gateway URL is not configured. Please set VITE_API_GATEWAY_URL environment variable.');
-    }
-
-    const response = await fetch(`${API_BASE_URL}/search`, {
-      method: 'POST',
+    const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
-        // 必要に応じてAPI Keyを追加
-        // 'X-API-Key': import.meta.env.VITE_API_KEY,
+        ...options.headers,
       },
-      body: JSON.stringify(searchParams),
+      ...options,
     });
 
     if (!response.ok) {
@@ -61,6 +40,13 @@ export class ApiClient {
     }
 
     return response.json();
+  }
+
+  static async searchRestaurants(searchParams: SearchRequest): Promise<RestaurantResponse[]> {
+    return this.makeRequest<RestaurantResponse[]>('/search', {
+      method: 'POST',
+      body: JSON.stringify(searchParams),
+    });
   }
 }
 
