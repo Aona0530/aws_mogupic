@@ -31,7 +31,7 @@ const StationSelector: React.FC<StationSelectorProps> = ({ selectedStation, onSt
                 : 'bg-gray-50 text-[#4a4a4a] hover:bg-[#efc1b4] hover:bg-opacity-10 border border-gray-200'
             }`}
           >
-            {station.name}駅
+            {station.name}
           </button>
         ))}
       </div>
