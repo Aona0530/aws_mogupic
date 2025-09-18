@@ -3,10 +3,6 @@ const API_BASE_URL = import.meta.env.VITE_API_GATEWAY_URL || 'https://zo1rbziz9c
 
 export interface SearchRequest {
   location: string;
-  looks: number;
-  taste: number;
-  price_bottom: number;
-  price_top: number;
   priority: string[];
 }
 
