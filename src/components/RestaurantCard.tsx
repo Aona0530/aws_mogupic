@@ -11,48 +11,13 @@ interface RestaurantCardProps {
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, priorityType }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  const cloudFrontDomain = process.env.REACT_APP_CLOUDFONT_DOMAIN;
 
-  // S3 URL を HTTPS URL に変換
-  const getImageUrl = (s3Url: string) => {
-    if (!s3Url) {
-      console.warn('No image URL provided');
-      return '/placeholder-image.jpg';
+  const getImageUrl = (filename: string) => {
+    if (!filename) {
+      return '';
     }
-    
-    if (s3Url.startsWith('s3://')) {
-      try {
-        const s3Path = s3Url.replace('s3://', '');
-        const [bucket, ...keyParts] = s3Path.split('/');
-        
-        if (!bucket || keyParts.length === 0) {
-          console.error('Invalid S3 URL format:', s3Url);
-          return '/placeholder-image.jpg';
-        }
-        
-        const key = keyParts.join('/');
-        const region = 'us-east-1'; // あなたのAWSリージョンに変更してください
-        
-        // URLエンコード（スラッシュは保持）
-        const encodedKey = encodeURIComponent(key).replace(/%2F/g, '/');
-        
-        const httpsUrl = `https://${bucket}.s3.${region}.amazonaws.com/${encodedKey}`;
-        console.log('S3 URL converted:', { original: s3Url, converted: httpsUrl });
-        
-        return httpsUrl;
-      } catch (error) {
-        console.error('S3 URL conversion error:', error);
-        return '/placeholder-image.jpg';
-      }
-    }
-    
-    // 既にHTTPS URLの場合はそのまま返す
-    if (s3Url.startsWith('https://') || s3Url.startsWith('http://')) {
-      return s3Url;
-    }
-    
-    // その他の場合はデフォルト画像
-    console.warn('Unknown URL format:', s3Url);
-    return '/placeholder-image.jpg';
+    return `https://${cloudFrontDomain}/${filename}`;
   };
 
   // 価格レベルの表示（使用していない場合は削除可能）
