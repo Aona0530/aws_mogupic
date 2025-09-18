@@ -11,7 +11,7 @@ interface RestaurantCardProps {
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, priorityType }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-  const cloudFrontDomain = process.env.REACT_APP_CLOUDFONT_DOMAIN;
+  const cloudFrontDomain = 'd1rpp5t5i1g0tw.cloudfront.net';
 
   const getImageUrl = (filename: string) => {
     if (!filename) {
