@@ -21,9 +21,8 @@ function App() {
       setCurrentView('results');
     } catch (error) {
       console.error('Search failed:', error);
-      // Handle error - could show error message to user
-      setSearchResults([]);
-      setCurrentView('results');
+      // Show error message to user
+      alert('検索に失敗しました。Lambda関数のURLが正しく設定されているか確認してください。');
     } finally {
       setIsLoading(false);
     }
