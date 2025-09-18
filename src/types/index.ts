@@ -1,6 +1,6 @@
 export interface SearchFilters {
   station: 'shibuya' | 'shinjuku' | 'ikebukuro';
-  priorities: ('instagrammability' | 'price' | 'taste' | 'distance')[];
+  priorities: ('looks' | 'price' | 'taste' | 'walk')[];
 }
 
 export interface Restaurant {
@@ -12,7 +12,7 @@ export interface Restaurant {
   walk: number; // minutes
   taberogu_score: number;
   google_score: number;
-  instagrammability: number; // 1-5
+  looks: number; // 1-5
   station: 'shibuya' | 'shinjuku' | 'ikebukuro';
   cuisine: string;
   address: string;

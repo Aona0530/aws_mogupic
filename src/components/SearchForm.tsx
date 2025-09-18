@@ -11,7 +11,7 @@ interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   const [selectedStation, setSelectedStation] = useState<'shibuya' | 'shinjuku' | 'ikebukuro'>('shibuya');
-  const [selectedPriorities, setSelectedPriorities] = useState<('instagrammability' | 'price' | 'taste' | 'distance')[]>([]);
+  const [selectedPriorities, setSelectedPriorities] = useState<('looks' | 'price' | 'taste' | 'walk')[]>([]);
 
   const handleSearch = () => {
     if (selectedPriorities.length === 0) return;

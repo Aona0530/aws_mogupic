@@ -20,10 +20,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const priorityLabels = {
-    instagrammability: '映え度優先',
+    looks: '映え度優先',
     price: '金額優先',
     taste: '美味しさ優先',
-    distance: '近場優先'
+    walk: '近場優先'
   };
 
   const stationLabels = {

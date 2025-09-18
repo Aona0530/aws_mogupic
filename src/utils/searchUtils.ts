@@ -12,10 +12,10 @@ const convertFiltersToApiRequest = (filters: SearchFilters): SearchRequest => {
 
   // Map priority names to API format
   const priorityMap = {
-    'instagrammability': 'looks',
+    'looks': 'looks',
     'taste': 'taste',
     'price': 'price',
-    'distance': 'location'
+    'walk': 'location'
   };
 
   return {
@@ -42,7 +42,7 @@ const convertApiResponseToRestaurant = (apiData: any, index: number): Restaurant
     walk: apiData.walk,
     taberogu_score: apiData.taberogu_score,
     google_score: apiData.google_score,
-    instagrammability: Math.floor(Math.random() * 5) + 1, // Generate random value since not in API
+    looks: Math.floor(Math.random() * 5) + 1, // Generate random value since not in API
     station: stationMap[apiData.location] || 'shibuya',
     cuisine: 'unknown', // Not provided by API
     address: apiData.location, // Use location as address

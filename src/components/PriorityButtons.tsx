@@ -2,13 +2,13 @@ import React from 'react';
 import { Camera, DollarSign, Heart, MapPin } from 'lucide-react';
 
 interface PriorityButtonsProps {
-  selectedPriorities: ('instagrammability' | 'price' | 'taste' | 'distance')[];
-  onPriorityChange: (priorities: ('instagrammability' | 'price' | 'taste' | 'distance')[]) => void;
+  selectedPriorities: ('looks' | 'price' | 'taste' | 'walk')[];
+  onPriorityChange: (priorities: ('looks' | 'price' | 'taste' | 'walk')[]) => void;
 }
 
 const priorities = [
   {
-    id: 'instagrammability' as const,
+    id: 'looks' as const,
     label: '映え度優先！',
     description: 'フォトジェニックなお店',
     icon: Camera,
@@ -32,7 +32,7 @@ const priorities = [
     hoverColor: '#e8b4a3'
   },
   {
-    id: 'distance' as const,
+    id: 'walk' as const,
     label: '近場優先！',
     description: '駅から近いお店',
     icon: MapPin,
@@ -42,7 +42,7 @@ const priorities = [
 ];
 
 const PriorityButtons: React.FC<PriorityButtonsProps> = ({ selectedPriorities, onPriorityChange }) => {
-  const handlePriorityClick = (priorityId: 'instagrammability' | 'price' | 'taste' | 'distance') => {
+  const handlePriorityClick = (priorityId: 'looks' | 'price' | 'taste' | 'walk') => {
     if (selectedPriorities.includes(priorityId)) {
       // Remove if already selected
       onPriorityChange(selectedPriorities.filter(p => p !== priorityId));

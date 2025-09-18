@@ -5,7 +5,7 @@ import { Restaurant } from '../types';
 interface RestaurantCardProps {
   restaurant: Restaurant;
   viewMode: 'grid' | 'list';
-  priorityType: 'instagrammability' | 'price' | 'taste' | 'distance';
+  priorityType: 'looks' | 'price' | 'taste' | 'walk';
 }
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, priorityType }) => {
@@ -16,17 +16,17 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
   };
 
   const priorityColors = {
-    instagrammability: '#ac91bd',
+    looks: '#ac91bd',
     price: '#7fcba4',
     taste: '#efc1b4',
-    distance: '#98c9a3'
+    walk: '#98c9a3'
   };
 
   const getPriorityValue = () => {
     switch (priorityType) {
-      case 'instagrammability': return restaurant.instagrammability;
+      case 'looks': return restaurant.looks;
       case 'taste': return restaurant.taberogu_score;
-      case 'distance': return `${restaurant.walk}分`;
+      case 'walk': return `${restaurant.walk}分`;
       case 'price': return `¥${restaurant.price.toLocaleString()}`;
       default: return '';
     }
@@ -81,7 +81,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
             
             <div className="flex items-center space-x-1">
               <Camera className="w-4 h-4 text-[#ac91bd]" />
-              <span className="text-[#4a4a4a] font-medium">{restaurant.instagrammability}</span>
+              <span className="text-[#4a4a4a] font-medium">{restaurant.looks}</span>
             </div>
           </div>
         </div>
