@@ -11,7 +11,7 @@ const Header: React.FC = () => {
               <MapPin className="w-6 h-6 text-white" />
             </div>
             <a href="/">
-              <h1 className="text-2xl font-bold text-[#4a4a4a] cursor-pointer">Mogupic</h1>
+              <h1 className="text-2xl font-bold text-[#4a4a4a] cursor-pointer">MOGUPIC</h1>
             </a>
           </div>
           
