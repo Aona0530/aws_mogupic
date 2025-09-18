@@ -57,7 +57,7 @@ const convertApiResponseToRestaurant = (apiData: any, index: number): Restaurant
 export const searchRestaurants = async (filters: SearchFilters): Promise<Restaurant[]> => {
   const apiUrl = import.meta.env.VITE_API_GATEWAY_URL;
   
-  if (!apiUrl || apiUrl === 'https://your-api-gateway-url.amazonaws.com/prod') {
+  if (!apiUrl) {
     throw new Error('Lambda function URL is not configured. Please set VITE_API_GATEWAY_URL environment variable.');
   }
 
