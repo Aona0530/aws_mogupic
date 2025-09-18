@@ -27,9 +27,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   };
 
   const stationLabels = {
-    shibuya: '渋谷',
-    shinjuku: '新宿',
-    ikebukuro: '池袋'
+    shibuya: '渋谷駅',
+    shinjuku: '新宿駅',
+    ikebukuro: '池袋駅'
   };
 
   const getPriorityDisplayText = () => {

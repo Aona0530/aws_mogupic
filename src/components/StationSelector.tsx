@@ -7,9 +7,9 @@ interface StationSelectorProps {
 }
 
 const stations = [
-  { id: 'shibuya' as const, name: '渋谷' },
-  { id: 'shinjuku' as const, name: '新宿' },
-  { id: 'ikebukuro' as const, name: '池袋' }
+  { id: 'shibuya' as const, name: '渋谷駅' },
+  { id: 'shinjuku' as const, name: '新宿駅' },
+  { id: 'ikebukuro' as const, name: '池袋駅' }
 ];
 
 const StationSelector: React.FC<StationSelectorProps> = ({ selectedStation, onStationChange }) => {
