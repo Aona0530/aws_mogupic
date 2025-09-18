@@ -10,7 +10,9 @@ const Header: React.FC = () => {
             <div className="w-10 h-10 bg-gradient-to-br from-[#efc1b4] to-[#ac91bd] rounded-lg flex items-center justify-center">
               <MapPin className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-[#4a4a4a]">Mogupic</h1>
+            <a href="/">
+              <h1 className="text-2xl font-bold text-[#4a4a4a] cursor-pointer">Mogupic</h1>
+            </a>
           </div>
           
           <nav className="hidden md:flex space-x-6">
