@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import SearchForm from './components/SearchForm';
 import SearchResults from './components/SearchResults';
-import { SearchFilters, Restaurant } from './types';
+import { SearchFilters, Restaurant } from './types'; // types/index.ts から型をインポート
 import { searchRestaurants } from './utils/searchUtils';
 
 function App() {
   const [currentView, setCurrentView] = useState<'search' | 'results'>('search');
-  const [searchFilters, setSearchFilters] = useState<SearchFilters | null>(null);
+  // 初期値をnullではなく、空のオブジェクトに変更
+  const [searchFilters, setSearchFilters] = useState<SearchFilters>({
+    station: 'shibuya', // 初期値を設定
+    priorities: [],
+  });
   const [searchResults, setSearchResults] = useState<Restaurant[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +25,6 @@ function App() {
       setCurrentView('results');
     } catch (error) {
       console.error('Search failed:', error);
-      // Show error message to user
       alert('検索に失敗しました。Lambda関数のURLが正しく設定されているか確認してください。');
     } finally {
       setIsLoading(false);
@@ -41,7 +44,8 @@ function App() {
       ) : (
         <SearchResults 
           results={searchResults}
-          filters={searchFilters!}
+          // filtersがnullになる可能性がなくなるため、!を削除
+          filters={searchFilters}
           onBackToSearch={handleBackToSearch}
           onNewSearch={handleSearch}
         />
