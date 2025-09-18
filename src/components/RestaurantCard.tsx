@@ -5,10 +5,22 @@ import { Restaurant } from '../types';
 interface RestaurantCardProps {
   restaurant: Restaurant;
   viewMode: 'grid' | 'list';
-  priorityType: 'looks' | 'price' | 'taste' | 'walk';
+  priorityType: 'instagrammability' | 'price' | 'taste' | 'distance';
 }
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, priorityType }) => {
+  // Convert S3 URL to HTTPS URL for display
+  const getImageUrl = (s3Url: string) => {
+    if (s3Url.startsWith('s3://')) {
+      // Convert s3://bucket/key to https://bucket.s3.amazonaws.com/key
+      const s3Path = s3Url.replace('s3://', '');
+      const [bucket, ...keyParts] = s3Path.split('/');
+      const key = keyParts.join('/');
+      return `https://${bucket}.s3.amazonaws.com/${key}`;
+    }
+    return s3Url; // Return as-is if not S3 URL
+  };
+
   const getPriceSymbols = (level: number) => {
     return '¥'.repeat(level) + '¥'.repeat(4 - level).split('').map((_, i) => (
       <span key={i} className="text-gray-300">¥</span>
@@ -16,17 +28,17 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
   };
 
   const priorityColors = {
-    looks: '#ac91bd',
+    instagrammability: '#ac91bd',
     price: '#7fcba4',
     taste: '#efc1b4',
-    walk: '#98c9a3'
+    distance: '#98c9a3'
   };
 
   const getPriorityValue = () => {
     switch (priorityType) {
-      case 'looks': return restaurant.looks;
+      case 'instagrammability': return restaurant.instagrammability;
       case 'taste': return restaurant.taberogu_score;
-      case 'walk': return `${restaurant.walk}分`;
+      case 'distance': return `${restaurant.walk}分`;
       case 'price': return `¥${restaurant.price.toLocaleString()}`;
       default: return '';
     }
@@ -43,9 +55,13 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
   return (
     <div className={cardClass}>
       <img
-        src={`https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=400`}
+        src={getImageUrl(restaurant.pics)}
         alt={restaurant.name}
         className={imageClass}
+        onError={(e) => {
+          // Fallback to placeholder image if S3 image fails to load
+          e.currentTarget.src = 'https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=400';
+        }}
       />
       
       <div className={viewMode === 'list' ? 'flex-1' : 'p-6'}>
@@ -81,7 +97,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
             
             <div className="flex items-center space-x-1">
               <Camera className="w-4 h-4 text-[#ac91bd]" />
-              <span className="text-[#4a4a4a] font-medium">{restaurant.looks}</span>
+              <span className="text-[#4a4a4a] font-medium">{restaurant.instagrammability}</span>
             </div>
           </div>
         </div>
