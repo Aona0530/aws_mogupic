@@ -184,13 +184,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
         </div>
         
         
-        {/* Googleスコア（もしあれば） */}
-        {restaurant.google_score && (
-          <div className="mt-2 text-xs text-[#6b6b6b]">
-            Google: {restaurant.google_score.toFixed(1)}
-          </div>
-        )}
-        
       </div>
     </div>
   );
