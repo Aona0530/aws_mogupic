@@ -15,7 +15,7 @@ const convertFiltersToApiRequest = (filters: SearchFilters): SearchRequest => {
     'looks': 'looks',
     'taste': 'taste',
     'price': 'price',
-    'walk': 'location'
+    'walk': 'walk'
   };
 
   return {

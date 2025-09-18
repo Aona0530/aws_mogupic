@@ -218,12 +218,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
           </div>
         </div>
         
-        {/* 説明文（もしあれば） */}
-        {restaurant.description && (
-          <p className="mt-3 text-sm text-[#6b6b6b] line-clamp-2">
-            {restaurant.description}
-          </p>
-        )}
         
         {/* Googleスコア（もしあれば） */}
         {restaurant.google_score && (
@@ -232,16 +226,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, viewMode, p
           </div>
         )}
         
-        {/* デバッグ情報（開発時のみ表示） */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="mt-2 p-2 bg-gray-100 rounded text-xs">
-            <strong>Debug:</strong>
-            <div>Original URL: {restaurant.pics}</div>
-            <div>Converted URL: {getImageUrl(restaurant.pics)}</div>
-            <div>Loading: {imageLoading ? 'Yes' : 'No'}</div>
-            <div>Error: {imageError ? 'Yes' : 'No'}</div>
-          </div>
-        )}
       </div>
     </div>
   );
