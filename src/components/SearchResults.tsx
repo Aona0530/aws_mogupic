@@ -54,7 +54,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
           </p>
           <div className="hidden sm:block w-1 h-1 bg-[#6b6b6b] rounded-full"></div>
           <p className="text-[#6b6b6b] hidden sm:block">
-            {getPriorityDisplayText()}で{stationLabels[filters.station]}駅周辺を検索
+            {getPriorityDisplayText()}で{stationLabels[filters.station]}周辺を検索
           </p>
         </div>
 
