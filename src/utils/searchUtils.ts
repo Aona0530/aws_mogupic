@@ -5,9 +5,9 @@ import ApiClient, { SearchRequest } from '../services/apiClient';
 const convertFiltersToApiRequest = (filters: SearchFilters): SearchRequest => {
   // Map station names to API format
   const locationMap = {
-    'shibuya': '渋谷',
-    'shinjuku': '新宿',
-    'ikebukuro': '池袋'
+    'shibuya': '渋谷駅',
+    'shinjuku': '新宿駅',
+    'ikebukuro': '池袋駅'
   };
 
   // Map priority names to API format
