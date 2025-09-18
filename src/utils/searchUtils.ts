@@ -20,10 +20,6 @@ const convertFiltersToApiRequest = (filters: SearchFilters): SearchRequest => {
 
   return {
     location: locationMap[filters.station],
-    looks: 3, // Default value - could be made configurable
-    taste: 3, // Default value - could be made configurable
-    price_bottom: 1000, // Default value - could be made configurable
-    price_top: 10000, // Default value - could be made configurable
     priority: filters.priorities.map(p => priorityMap[p])
   };
 };
