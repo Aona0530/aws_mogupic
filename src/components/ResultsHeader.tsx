@@ -30,7 +30,7 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({
           <div className="text-center">
             <div className="text-sm text-[#6b6b6b]">検索条件</div>
             <div className="font-semibold text-[#4a4a4a]">
-              {stationLabel}駅・{priorityLabel}
+              {stationLabel}・{priorityLabel}
             </div>
           </div>
           
