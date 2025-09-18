@@ -52,19 +52,31 @@ const convertApiResponseToRestaurant = (apiData: any, index: number): Restaurant
 
 export const searchRestaurants = async (filters: SearchFilters): Promise<Restaurant[]> => {
   const apiUrl = import.meta.env.VITE_API_GATEWAY_URL;
-  
+
   if (!apiUrl) {
     throw new Error('Lambda function URL is not configured. Please set VITE_API_GATEWAY_URL environment variable.');
   }
 
   try {
-    // Call Lambda function via API Gateway
     const apiRequest = convertFiltersToApiRequest(filters);
-    const apiResponse = await ApiClient.searchRestaurants(apiRequest);
-    
-    return apiResponse.map((restaurant, index) => 
+
+    // APIクライアントを呼び出して、レスポンスオブジェクト全体を取得
+    // レスポンスは { "data": [...] } の形式
+    const fullApiResponse = await ApiClient.searchRestaurants(apiRequest);
+
+    // 'data'キーから、レストランの配列を抽出
+    const restaurantArray = fullApiResponse.data;
+
+    // 抽出したデータが有効な配列であるかを確認
+    if (!Array.isArray(restaurantArray)) {
+      throw new Error('APIレスポンスの形式が無効です: "data"が配列ではありません。');
+    }
+
+    // 抽出した配列をUIの形式に変換
+    return restaurantArray.map((restaurant, index) =>
       convertApiResponseToRestaurant(restaurant, index)
     );
+
   } catch (error) {
     console.error('API request failed:', error);
     throw error;
