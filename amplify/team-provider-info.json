@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mogupic-dev-1c4cf-authRole",
+      "UnauthRoleArn": "arn:aws:iam::164693826597:role/amplify-mogupic-dev-1c4cf-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::164693826597:role/amplify-mogupic-dev-1c4cf-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-mogupic-dev-1c4cf-deployment",
+      "UnauthRoleName": "amplify-mogupic-dev-1c4cf-unauthRole",
+      "StackName": "amplify-mogupic-dev-1c4cf",
+      "StackId": "arn:aws:cloudformation:us-east-1:164693826597:stack/amplify-mogupic-dev-1c4cf/2202d0b0-945b-11f0-a44d-0affc104c51d",
+      "AmplifyAppId": "d2jlfnfl74gggk"
+    },
+    "categories": {
+      "auth": {
+        "mogupic4963cbfa": {}
+      }
+    }
+  }
+}

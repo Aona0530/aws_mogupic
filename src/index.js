@@ -2,7 +2,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { AuthProvider } from "react-oidc-context";
+import { Amplify } from "aws-amplify";
+import awsExports from "./aws-exports";
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_Mw4V1Mnp8",
@@ -15,10 +16,10 @@ const cognitoAuthConfig = {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // wrap the application with AuthProvider
+Amplify.configure(awsExports);
+
 root.render(
   <React.StrictMode>
-    <AuthProvider {...cognitoAuthConfig}>
-      <App />
-    </AuthProvider>
+    <App />
   </React.StrictMode>
 );
