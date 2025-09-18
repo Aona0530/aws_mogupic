@@ -39,7 +39,7 @@ export class ApiClient {
   }
 
   static async searchRestaurants(searchParams: SearchRequest): Promise<RestaurantResponse[]> {
-    return this.makeRequest<RestaurantResponse[]>('/search', {
+    return this.makeRequest<RestaurantResponse[]>('/', {
       method: 'POST',
       body: JSON.stringify(searchParams),
     });
